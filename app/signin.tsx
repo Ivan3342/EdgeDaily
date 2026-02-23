@@ -1,14 +1,14 @@
-import { Stack } from 'expo-router';
+import { Stack, useRouter } from 'expo-router';
 import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, StatusBar, useColorScheme, Touchable, TextInput, Image, Alert } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import type { User } from './Interfaces/User';
 
 export default function SignIn() {
-    const [quest, setQuest] = useState<any>(null);
     const [users, setUsers] = useState<User[]>();
     const [username, setUsername] = useState<string>("");
     const [password, setPassword] = useState<string>("");
+    const router = useRouter();
 
     const googleUri = "https://cdn.iconscout.com/icon/free/png-256/free-google-icon-svg-download-png-1507807.png";
     const instagramUri = "https://cdn.iconscout.com/icon/free/png-512/free-instagram-logo-icon-svg-download-png-1583142.png?f=webp&w=256";
@@ -31,11 +31,16 @@ export default function SignIn() {
 
             //Logovanje
 
-            if(users?.find((user) => user.username === username && user.password === password)) {
-                Alert.alert("Uspesno Logovanje", "Uzivajte u aplikaicji! 😁");
+            const foundUser = users?.find((user) => user.username === username && user.password === password);
+
+            if(foundUser) {
+                router.replace({
+                    pathname: '/',
+                    params: { user: JSON.stringify(foundUser) }
+                });
             }
             else {
-                Alert.alert("Greska!", "Podaci koji su uneti se ne poklapaju sa onim u nasoj bazi. 😵‍💫");
+                Alert.alert("Greška ⚠️", "Pogrešno ime ili lozinka!");
             }
 
         } catch (error) {
@@ -49,7 +54,7 @@ export default function SignIn() {
             <Stack.Screen
                 options={{
                     headerShown: true,
-                    title: "Sign In",
+                    title: "Prijava",
                     headerTitleAlign: "center"
                 }}
             />
@@ -63,18 +68,16 @@ export default function SignIn() {
                     <View>
                         <TextInput
                             style={styles.input}
-                            placeholder='Username'
+                            placeholder='Korisničko ime'
                             textContentType="username"
-                            id='username'
                             onChangeText={handleUsernameChange}
                         />
                     </View>
                     <View>
                         <TextInput
                             style={styles.input}
-                            placeholder='Password'
+                            placeholder='Lozinka'
                             textContentType='password'
-                            id='password'
                             onChangeText={handlePasswordChange}
                             secureTextEntry={true}
                         />
@@ -84,7 +87,7 @@ export default function SignIn() {
                             onPress={handleSignIn}
                         ><Text style={[styles.button, styles.input, { textAlign: "center" }]}>Sign In</Text></TouchableOpacity>
                     </View>
-                    <Text style={{ textAlign: "center", marginVertical: 20 }}>Or...</Text>
+                    <Text style={{ textAlign: "center", marginVertical: 20 }}>Ili...</Text>
                     <View style={{display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "space-around"}}>
                         <TouchableOpacity>
                             <View style={[styles.iconWrapper, styles.input]}>
@@ -147,8 +150,8 @@ const styles = StyleSheet.create({
         padding: 10,
         backgroundColor: theme.primary,
         borderRadius: theme.borderRadius,
-        boxShadow: `0px 2px 7px ${theme.shadow}`,
-        color: theme.bg
+        color: theme.bg,
+        boxShadow: theme.boxShadow
     },
     title: {
         fontSize: 28,
@@ -162,7 +165,7 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: theme.shadow,
         borderRadius: theme.borderRadius,
-        boxShadow: theme.boxShadow,
+        boxShadow: theme.boxShadow
     },
     iconWrapper: {
         alignItems: "center",

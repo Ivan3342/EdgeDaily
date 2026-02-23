@@ -2,6 +2,6 @@ export interface User {
     userId: number;
     username: string;
     password: string;
-    xpPoints: number;
-    currentLevel: number;
+    xp_points: number;
+    current_level: number;
 }
