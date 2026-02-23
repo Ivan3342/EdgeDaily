@@ -1,9 +1,12 @@
-import { Stack } from 'expo-router';
+import { Stack, useRouter } from 'expo-router';
 import React, { useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, StatusBar, useColorScheme, Touchable } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, StatusBar } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
+import type { User } from './Interfaces/User';
+
 
 export default function Index() {
+  const router = useRouter();
   const [quest, setQuest] = useState<any>(null);
 
   const getQuestFromBackend = async () => {
@@ -17,9 +20,7 @@ export default function Index() {
     }
   };
 
-  const handleSignIn = () => {
-    console.log("Signed in!")
-  }
+  
 
   return (
     <SafeAreaProvider style={styles.safeAreaProvider}>
@@ -33,7 +34,9 @@ export default function Index() {
           <Text style={styles.title}>EdgeDaily</Text>
           <TouchableOpacity 
             style={styles.button}
-            onPress={handleSignIn}
+            onPress={() => {
+              router.push("/signin");
+            }}
           ><Text style={{color: theme.bg}}>Sign In</Text></TouchableOpacity>
         </View>
         <View style={styles.mainView}>
@@ -49,7 +52,8 @@ const theme = {
   secondary: "#F96900",
   text: "#283044",
   shadow: "#E1DDDE",
-  borderRadius: 12
+  borderRadius: 12,
+  boxShadow: '0px 2px 7px #E1DDDE'
 }
 
 const styles = StyleSheet.create({
@@ -72,7 +76,7 @@ const styles = StyleSheet.create({
     padding: 10,
     backgroundColor: theme.primary,
     borderRadius: theme.borderRadius,
-    boxShadow: `0px 2px 7px ${theme.shadow}`
+    boxShadow: theme.boxShadow
   },
   title: {
     fontSize: 28,
