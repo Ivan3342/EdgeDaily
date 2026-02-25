@@ -24,14 +24,11 @@ export default function SignIn() {
 
     const handleSignIn = async () => {
         try {
-            //Fecovanje podataka - SAMO ZA SVRHE DEMONSTRACIJE
             const response = await fetch("http://192.168.0.20:3000/users");
             const data: User[] = await response.json();
             setUsers(data);
 
-            //Logovanje
-
-            const foundUser = users?.find((user) => user.username === username && user.password === password);
+            const foundUser = data.find((user) => user.username === username && user.password === password);
 
             if(foundUser) {
                 router.replace({
