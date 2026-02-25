@@ -32,7 +32,7 @@ export default function Index() {
   const completeQuest = async () => {
     if (!activeUser || !currentQuest) return;
 
-    const response = await fetch('http://192.168.0.20:3000/update-xp', { // UKLONJEN / NA KRAJU
+    const response = await fetch('http://192.168.0.20:3000/update-xp', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -96,15 +96,17 @@ export default function Index() {
       <SafeAreaView style={styles.mainView}>
         <View style={styles.header}>
           <Text style={styles.title}>EdgeDaily</Text>
-          <TouchableOpacity onPress={() => setActiveUser(null)} style={{ marginTop: 20 }}>
+          <TouchableOpacity
+            onPress={() => setActiveUser(null)}
+            style={{ marginTop: 20 }}>
             <Text style={[styles.button, { backgroundColor: theme.text, color: theme.bg }]}>Odjavi se</Text>
           </TouchableOpacity>
         </View>
         <View style={styles.mainView}>
           <View style={styles.container}>
             <Text style={{ fontSize: 24, marginBottom: 14, fontWeight: 'bold' }}>Dobrodošao, {activeUser.username}!</Text>
-            <Text style={{fontSize: 18}}>Level: <Text style={{color: theme.secondary, fontWeight: 'bold'}}>{activeUser.current_level}</Text></Text>
-            <Progress.Bar 
+            <Text style={{ fontSize: 18 }}>Level: <Text style={{ color: theme.secondary, fontWeight: 'bold' }}>{activeUser.current_level}</Text></Text>
+            <Progress.Bar
               style={{ marginTop: 10, borderColor: theme.secondary }}
               color='#F96900'
               progress={xpProgress}
@@ -122,10 +124,10 @@ export default function Index() {
               <View style={styles.container}>
                 <Text style={{ fontSize: 18, marginVertical: 5, fontWeight: 'bold' }}>Aktivni Quest: {currentQuest.title}</Text>
                 <Text style={{ marginVertical: 5 }}>{currentQuest.description}</Text>
-                <Text style={{marginVertical: 5, fontStyle: "italic"}}>Nagrada: {currentQuest.xp_reward} XP</Text>
+                <Text style={{ marginVertical: 5, fontStyle: "italic" }}>Nagrada: {currentQuest.xp_reward} XP</Text>
 
                 <TouchableOpacity
-                  style={[styles.button, {marginTop: 10}]}
+                  style={[styles.button, { marginTop: 10 }]}
                   onPress={completeQuest}
                 >
                   <Text style={{ color: 'white', textAlign: 'center' }}>OZNAČI KAO ODRAĐENO</Text>
@@ -134,6 +136,14 @@ export default function Index() {
             )}
           </View>
         </View>
+        <TouchableOpacity
+          style={[styles.button, { backgroundColor: theme.secondary }]}
+          onPress={() => {
+            router.push("/panic");
+          }}
+          >
+          <Text style={{ color: theme.bg, textAlign: "center" }}>Panic Taster</Text>
+        </TouchableOpacity>
       </SafeAreaView>
     </SafeAreaProvider>
   );
@@ -145,47 +155,109 @@ const theme = {
   secondary: "#F96900",
   text: "#283044",
   shadow: "#E1DDDE",
-  borderRadius: 12,
-  boxShadow: '0px 2px 7px #E1DDDE'
+  borderRadius: 16,
+  boxShadow: "0px 4px 10px rgba(40, 48, 68, 0.1)" 
 }
 
 const styles = StyleSheet.create({
   safeAreaProvider: {
     backgroundColor: theme.bg,
+    flex: 1,
   },
   mainView: {
-    margin: 14,
     flex: 1,
-    flexDirection: "column",
-    justifyContent: "flex-start"
+    padding: 16, 
   },
   header: {
-    display: "flex",
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-  },
-  button: {
-    padding: 10,
-    backgroundColor: theme.primary,
-    borderRadius: theme.borderRadius,
-    boxShadow: theme.boxShadow
+    marginBottom: 24,
+    marginTop: 10,
   },
   title: {
-    fontSize: 28,
-    fontWeight: "bold",
-    padding: 4
-    // Dodati custom font ovde
+    fontSize: 32,
+    fontWeight: "900", 
+    color: theme.text,
+    letterSpacing: -1,
   },
   container: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: 'center',
-    paddingHorizontal: 14,
-    paddingVertical: 28,
-    marginVertical: 7,
+    backgroundColor: "#FFFFFF",
+    padding: 24,
     borderRadius: theme.borderRadius,
-    boxShadow: theme.boxShadow
+    marginBottom: 20,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.05,
+    shadowRadius: 10,
+    elevation: 3,
+    alignItems: "center",
+  },
+  button: {
+    paddingVertical: 14,
+    paddingHorizontal: 24,
+    backgroundColor: theme.primary,
+    borderRadius: theme.borderRadius,
+    alignItems: "center",
+    justifyContent: "center",
+    shadowColor: theme.primary,
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.2,
+    shadowRadius: 5,
+    elevation: 4,
+  },
+  buttonText: {
+    color: "#FFF",
+    fontWeight: "bold",
+    fontSize: 16,
+    textAlign: "center"
+  },
+  logoutButton: {
+    paddingVertical: 8,
+    paddingHorizontal: 12,
+    backgroundColor: "transparent",
+    borderWidth: 1,
+    borderColor: theme.shadow,
+    borderRadius: 10,
+  },
+  logoutText: {
+    color: "#888",
+    fontSize: 12,
+    fontWeight: "600"
+  },
+  questTitle: {
+    fontSize: 20,
+    fontWeight: "800",
+    color: theme.text,
+    textAlign: "center",
+    marginBottom: 8
+  },
+  questDescription: {
+    fontSize: 15,
+    color: "#555",
+    textAlign: "center",
+    lineHeight: 22,
+    marginBottom: 12
+  },
+  rewardBadge: {
+    backgroundColor: "rgba(249, 105, 0, 0.1)", 
+    paddingVertical: 4,
+    paddingHorizontal: 10,
+    borderRadius: 8,
+    marginBottom: 15
+  },
+  rewardText: {
+    color: theme.secondary,
+    fontWeight: "bold",
+    fontSize: 14
+  },
+  panicButton: {
+    backgroundColor: theme.secondary,
+    padding: 18,
+    borderRadius: theme.borderRadius,
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: "auto", 
   }
-
 });

@@ -30,7 +30,7 @@ export default function SignIn() {
 
             const foundUser = data.find((user) => user.username === username && user.password === password);
 
-            if(foundUser) {
+            if (foundUser) {
                 router.replace({
                     pathname: '/',
                     params: { user: JSON.stringify(foundUser) }
@@ -80,12 +80,11 @@ export default function SignIn() {
                         />
                     </View>
                     <View>
-                        <TouchableOpacity
-                            onPress={handleSignIn}
-                        ><Text style={[styles.button, styles.input, { textAlign: "center" }]}>Sign In</Text></TouchableOpacity>
-                    </View>
+                        <TouchableOpacity style={styles.button} onPress={handleSignIn}>
+                            <Text style={styles.buttonText}>Prijavi se</Text>
+                        </TouchableOpacity></View>
                     <Text style={{ textAlign: "center", marginVertical: 20 }}>Ili...</Text>
-                    <View style={{display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "space-around"}}>
+                    <View style={{ display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "space-around" }}>
                         <TouchableOpacity>
                             <View style={[styles.iconWrapper, styles.input]}>
                                 <Image
@@ -123,8 +122,8 @@ const theme = {
     secondary: "#F96900",
     text: "#283044",
     shadow: "#E1DDDE",
-    borderRadius: 12,
-    boxShadow: "0px 2px 7px #E1DDDE"
+    borderRadius: 16,
+    boxShadow: "0px 4px 10px rgba(40, 48, 68, 0.1)"
 }
 
 const styles = StyleSheet.create({
@@ -144,11 +143,25 @@ const styles = StyleSheet.create({
         justifyContent: "space-between",
     },
     button: {
-        padding: 10,
+        paddingVertical: 14,
+        paddingHorizontal: 24,
         backgroundColor: theme.primary,
         borderRadius: theme.borderRadius,
-        color: theme.bg,
-        boxShadow: theme.boxShadow
+        alignItems: "center",
+        justifyContent: "center",
+        shadowColor: theme.primary,
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.2,
+        shadowRadius: 5,
+        elevation: 4,
+        marginVertical: 10
+    },
+
+    buttonText: {
+        color: "#FFF",
+        fontWeight: "bold",
+        fontSize: 16,
+        textAlign: "center"
     },
     title: {
         fontSize: 28,
