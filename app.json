@@ -19,7 +19,8 @@
         "monochromeImage": "./assets/images/monochrome.png"
       },
       "edgeToEdgeEnabled": true,
-      "predictiveBackGestureEnabled": true
+      "predictiveBackGestureEnabled": true,
+      "package": "com.ivanstoj.EdgeDaily"
     },
     "web": {
       "output": "static",
@@ -43,6 +44,12 @@
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "9136a847-deba-48ff-a8f3-246c054375fd"
+      }
     }
   }
 }
